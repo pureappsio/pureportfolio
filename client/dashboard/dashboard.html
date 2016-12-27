@@ -1,0 +1,118 @@
+<template name="dashboard">
+    {{#if currentUser}}
+    <div class='row'>
+        <div class='col-md-3'>
+            <label>Type</label>
+            <select id='type' class='form-control'>
+                <option value='stock'>Stocks</option>
+                <!--           <option value='reit'>REIT</option>
+                <option value='etf'>ETF</option> -->
+                <option value='p2p'>Peer-to-Peer Lending</option>
+                <option value='realestate'>Real Estate</option>
+                <option value='website'>Profitable Website</option>
+                <option value='equity'>Equity</option>
+                <option value='cash'>Cash</option>
+            </select>
+        </div>
+        {{#if isGeneric}}
+        <div class='col-md-3'>
+            <label>Name</label>
+            <input id='name' class='form-control' type='text'>
+        </div>
+        <div class='col-md-1'>
+            <label>Value</label>
+            <input id='value' class='form-control' type='text'>
+        </div>
+        <div class='col-md-1'>
+            <label>Yield</label>
+            <input id='yield' class='form-control' type='text'>
+        </div>
+        <div class='col-md-1'>
+            <label>Currency</label>
+            <select id='currency' class='form-control'>
+                <option value='EUR'>EUR</option>
+                <option value='USD'>USD</option>
+                <option value='GBP'>GBP</option>
+                <option value='HKD'>HKD</option>
+                <option value='CAD'>CAD</option>
+                <option value='SGD'>SGD</option>
+            </select>
+        </div>
+        {{/if}}
+        {{#if isWebsite}}
+        <div class='col-md-3'>
+            <label>Name</label>
+            <input id='name' class='form-control' type='text'>
+        </div>
+        <div class='col-md-1'>
+            <label>Income</label>
+            <input id='income' class='form-control' type='text'>
+        </div>
+        <div class='col-md-1'>
+            <label>Currency</label>
+            <select id='currency' class='form-control'>
+                <option value='EUR'>EUR</option>
+                <option value='USD'>USD</option>
+                <option value='GBP'>GBP</option>
+                <option value='HKD'>HKD</option>
+                <option value='CAD'>CAD</option>
+                <option value='SGD'>SGD</option>
+            </select>
+        </div>
+        {{/if}}
+        {{#if isStock}}
+        <div class='col-md-2'>
+            <label>Ticker</label>
+            <input id='ticker' class='form-control' type='text'>
+        </div>
+        <div class='col-md-2'>
+            <label>Quantity</label>
+            <input id='qty' class='form-control' type='text'>
+        </div>
+        <div class='col-md-2'>
+            <label>Type</label>
+            <select id='field' class='form-control'>
+                <option value='generic'>Generic</option>
+                <option value='reit'>REIT</option>
+                <option value='etf'>ETF</option>
+            </select>
+        </div>
+        {{/if}}
+    </div>
+    <div class='row voffset30'>
+        <div class='col-md-4'></div>
+        <div class='col-md-4'>
+            <button id='add' class='btn btn-block btn-primary'>Add</button>
+        </div>
+    </div>
+    <div class='row voffset30'>
+        <div class='col-md-4 col-centered'>
+            <div>Total:</div>
+            <div class='earnings-title'>{{total}}</div>
+        </div>
+        <div class='col-md-4 col-centered'>
+            <div>Income:</div>
+            <div class='earnings-title'>{{income}}</div>
+        </div>
+        <div class='col-md-4 col-centered'>
+            <div>Yield:</div><div class='earnings-title'>{{yield}}%</div>
+        </div>
+    </div>
+    <table class="table voffset30">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Yield</th>
+                <th>Monthly Income</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each positions}} {{> position}} {{/each}}
+        </tbody>
+    </table>
+    
+    {{/if}}
+</template>

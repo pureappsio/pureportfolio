@@ -1,0 +1,21 @@
+<template name="history">
+    {{#if currentUser}}
+    <h3>History</h3>
+    <!-- <table class="table voffset30">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Value</th>
+                <th>Income</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each snapshots}} {{> snapshot}} {{/each}}
+        </tbody>
+    </table> -->
+
+    {{> highchartsHelper chartId="test" chartWidth="100%" charHeight="100%" chartObject=historyChart}}
+
+    {{/if}}
+</template>
