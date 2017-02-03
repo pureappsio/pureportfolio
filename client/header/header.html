@@ -17,10 +17,12 @@
       <ul class="nav navbar-nav">
         {{#if currentUser}}
           <li><a href="{{pathFor 'dashboard'}}">Dashboard</a></li>
+          <li><a href="{{pathFor 'portfolio'}}">Portfolio</a></li>
           <li><a href="{{pathFor 'history'}}">History</a></li>
+          <li><a href="{{pathFor 'settings'}}">Settings</a></li>
         {{/if}}
       </ul>
-
+      
    	  <ul class="nav navbar-nav navbar-right login">
         {{> loginButtons}}
       </ul>

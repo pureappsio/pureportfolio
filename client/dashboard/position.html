@@ -1,11 +1,20 @@
 <template name="position">
-   
     <tr>
-    	<td>{{type}}</td>
+        <td>{{type}}</td>
         <td>{{name}}</td>
-        <td>{{convertedValue}}</td>
+        <td>
+            {{#if isStock}}
+            <input id='{{_id}}' type='text' class='form-control' value='{{qty}}'>{{/if}}
+        </td>
+        <td>
+            {{#if isStock}} {{convertedValue}} {{else}}
+            <input id='{{_id}}' type='text' class='form-control' value='{{convertedValue}}'> {{/if}} {{currency}}
+        </td>
         <td>{{positionYield}}</td>
         <td>{{income}}</td>
+        <td>
+            <button class='btn btn-warning update'>Update</button>
+        </td>
         <td>
             <button class='btn btn-danger delete'>X</button>
         </td>

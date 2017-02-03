@@ -2,6 +2,10 @@ Meteor.publish("userPositions", function () {
 	return Positions.find({});
 });
 
+Meteor.publish("userGoals", function () {
+	return Goals.find({});
+});
+
 Meteor.publish("userSnapshots", function () {
 	return Snapshots.find({});
 });

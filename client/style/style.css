@@ -4,6 +4,10 @@
 	vertical-align: middle;
 }
 
+.voffset30 {
+	margin-bottom: 30px;
+}
+
 .status {
 	font-size: 16px;
 }
@@ -159,10 +163,20 @@ body {
   display: none;
 }
 
+.earnings {
+	margin-bottom: 50px;
+}
+
 .earnings-title {
 
-	margin-bottom: 50px;
 	font-size: 50px;
+
+}
+
+.earnings-goal {
+
+	color: gray;
+	font-size: 25px;
 
 }
 

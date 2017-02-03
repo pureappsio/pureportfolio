@@ -1,5 +1,5 @@
 SyncedCron.config({
-  log: false
+  log: true
 });
 
 SyncedCron.add({

@@ -85,34 +85,56 @@
             <button id='add' class='btn btn-block btn-primary'>Add</button>
         </div>
     </div>
-    <div class='row voffset30'>
+    <div class='row earnings'>
         <div class='col-md-4 col-centered'>
-            <div>Total:</div>
+            <div>Total</div>
             <div class='earnings-title'>{{total}}</div>
+            <div class='earnings-goal'>{{valueGoal}}%</div>
         </div>
         <div class='col-md-4 col-centered'>
-            <div>Income:</div>
+            <div>Income</div>
             <div class='earnings-title'>{{income}}</div>
+            <div class='earnings-goal'>{{incomeGoal}}%</div>
         </div>
         <div class='col-md-4 col-centered'>
-            <div>Yield:</div><div class='earnings-title'>{{yield}}%</div>
+            <div>Yield</div><div class='earnings-title'>{{yield}}%</div>
         </div>
     </div>
-    <table class="table voffset30">
+    <div class='row earnings'>
+        <div class='col-md-3 col-centered'>
+            <div>Dividend Paying Stocks</div>
+            <div class='earnings-title'>{{positionTotal "stock"}}</div>
+            <div class='earnings-goal'>{{positionGoal "stock"}}%</div>
+        </div>
+        <div class='col-md-3 col-centered'>
+            <div>Real Estate</div>
+            <div class='earnings-title'>{{positionTotal "realestate"}}</div>
+            <div class='earnings-goal'>{{positionGoal "realestate"}}%</div>
+        </div>
+        <div class='col-md-3 col-centered'>
+            <div>Peer-to-Peer Lending</div>
+            <div class='earnings-title'>{{positionTotal "p2p"}}</div>
+            <div class='earnings-goal'>{{positionGoal "p2p"}}%</div>
+        </div>
+        <div class='col-md-3 col-centered'>
+            <div>Profitable Websites</div>
+            <div class='earnings-title'>{{positionTotal "website"}}</div>
+            <div class='earnings-goal'>{{positionGoal "website"}}%</div>
+        </div>
+    </div>
+    <!-- <table class="table voffset30">
         <thead>
             <tr>
                 <th>Type</th>
-                <th>Name</th>
                 <th>Value</th>
                 <th>Yield</th>
                 <th>Monthly Income</th>
-                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
-            {{#each positions}} {{> position}} {{/each}}
+            {{#each types}} {{> type}} {{/each}}
         </tbody>
-    </table>
+    </table> -->
     
     {{/if}}
 </template>

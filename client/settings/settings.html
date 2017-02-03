@@ -1,0 +1,43 @@
+<template name="settings">
+    {{#if currentUser}}
+    <h3>Add Goal</h3>
+    <div class='row'>
+        <div class='col-md-2'>
+            <select id='type' class='form-control'>
+                <option value='global'>Global</option>
+                <option value='stock'>Stocks</option>
+                <option value='p2p'>Peer-to-Peer Lending</option>
+                <option value='realestate'>Real Estate</option>
+                <option value='website'>Profitable Website</option>
+            </select>
+        </div>
+        <div class='col-md-2'>
+            <select id='feature' class='form-control'>
+                <option value='income'>Income</option>
+                <option value='value'>Value</option>
+            </select>
+        </div>
+        <div class='col-md-2'>
+            <input type="text" class='form-control' id='value'>
+        </div>
+        <div class='col-md-2'>
+            <button id='add-goal' class='btn btn-block btn-primary'>Add Goal</button>
+        </div>
+    </div>
+
+    <table class="table voffset30">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Feature</th>
+                <th>Value</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each goals}} {{> goal}} {{/each}}
+        </tbody>
+    </table>
+
+    {{/if}}
+</template>

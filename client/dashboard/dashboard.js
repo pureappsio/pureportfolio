@@ -29,10 +29,9 @@ Template.dashboard.events({
                 type: type,
                 field: $('#field :selected').val()
             }
-        } 
-        else if (type == 'website') {
+        } else if (type == 'website') {
 
-        	var position = {
+            var position = {
                 name: $('#name').val(),
                 income: $('#income').val(),
                 userId: Meteor.user()._id,
@@ -40,8 +39,7 @@ Template.dashboard.events({
                 currency: $('#currency :selected').val()
             }
 
-        }
-        else {
+        } else {
             var position = {
                 name: $('#name').val(),
                 value: parseFloat($('#value').val()),
@@ -69,6 +67,45 @@ Template.dashboard.events({
 
 Template.dashboard.helpers({
 
+    positionTotal: function(type) {
+
+        return Session.get('types')[type].value.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+
+    },
+    positionGoal: function(type) {
+
+        if (Goals.findOne({ type: type, feature: 'value' })) {
+            var current = Session.get('types')[type].value;
+            var goal = Goals.findOne({ type: type, feature: 'value' }).value;
+
+            return (current / goal * 100).toFixed(0);
+        }
+
+    },
+    isValueGoal: function() {
+
+        if (Goals.findOne({ type: 'global', feature: 'value' })) {
+            return true;
+        }
+
+    },
+    valueGoal: function() {
+
+        return (Session.get('total').value / Goals.findOne({ type: 'global', feature: 'value' }).value * 100).toFixed(0);
+
+    },
+    incomeGoal: function() {
+
+        return (Session.get('total').income / Goals.findOne({ type: 'global', feature: 'income' }).value * 100).toFixed(0);
+
+    },
+    isIncomeGoal: function() {
+
+        if (Goals.findOne({ type: 'global', feature: 'income' })) {
+            return true;
+        }
+
+    },
     isGeneric: function() {
         if (Session.get('type') == 'generic') {
             return true;
@@ -101,6 +138,9 @@ Template.dashboard.helpers({
     },
     yield: function() {
         return Session.get('total').yield.toFixed(2);
+    },
+    types: function() {
+        return Session.get('types');
     }
 
 });
@@ -110,6 +150,14 @@ Template.dashboard.onRendered(function() {
     Meteor.call('getPortfolioTotal', function(err, data) {
 
         Session.set('total', data);
+
+    });
+
+    Meteor.call('getPortfolio', function(err, data) {
+
+        console.log(data);
+
+        Session.set('types', data);
 
     });
 

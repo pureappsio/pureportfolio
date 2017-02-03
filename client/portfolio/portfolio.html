@@ -1,0 +1,19 @@
+<template name='portfolio'>
+    <table class="table voffset30">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Name</th>
+                <th>Ticker</th>
+                <th>Value</th>
+                <th>Yield</th>
+                <th>Monthly Income</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each positions}} {{> position}} {{/each}}
+        </tbody>
+    </table>
+</template>

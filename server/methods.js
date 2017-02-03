@@ -1,5 +1,58 @@
 Meteor.methods({
 
+    getPositions: function(query) {
+
+        // Get all positions
+        var positions = Positions.find(query, { sort: { value: -1 } }).fetch();
+
+        // Process
+        for (i in positions) {
+
+            // Change to EUR
+            if (positions[i].currency != 'EUR') {
+                positions[i].value = positions[i].value / Metas.findOne({ type: positions[i].currency }).value
+            }
+
+        }
+
+        // Sort
+        positions.sort(function(a, b) {
+            if (a.value < b.value)
+                return 1;
+            if (a.value > b.value)
+                return -1;
+            return 0;
+        });
+
+        for (i in positions) {
+
+            // Process
+            positions[i].value = (positions[i].value).toFixed(0);
+            positions[i].income = (positions[i].value * positions[i].positionYield / 100).toFixed(2);
+            positions[i].monthlyIncome = (positions[i].income / 12).toFixed(2);
+
+        }
+        return positions;
+
+    },
+    deleteGoal: function(goalId) {
+
+        return Goals.remove(goalId);
+
+    },
+
+    getGoal: function(query) {
+
+        return Goals.findOne(query);
+
+    },
+    addGoal: function(goal) {
+
+        console.log(goal);
+
+        Goals.insert(goal);
+
+    },
     getSnapshots: function(query) {
 
         return Snapshots.find(query).fetch();
@@ -154,7 +207,8 @@ Meteor.methods({
 
         // Request
         var data = HTTP.get('http://api.fixer.io/latest');
-        // console.log(data);
+        console.log(JSON.parse(data.content));
+        var currencyData = JSON.parse(data.content);
 
         var currencies = ['USD', 'GBP', 'HKD', 'SEK', 'SGD', 'CAD'];
 
@@ -164,12 +218,12 @@ Meteor.methods({
 
                 console.log('Updating Meta');
 
-                Metas.update({ type: currencies[c] }, { $set: { value: data.data.rates[currencies[c]] } });
+                Metas.update({ type: currencies[c] }, { $set: { value: currencyData.rates[currencies[c]] } });
 
             } else {
                 console.log('Creating new Meta');
 
-                Metas.insert({ type: currencies[c], value: data.data.rates[currencies[c]] });
+                Metas.insert({ type: currencies[c], value: currencyData.rates[currencies[c]] });
             }
 
         }
@@ -213,6 +267,33 @@ Meteor.methods({
 
         // Remove
         Positions.remove(positionId);
+
+    },
+    updatePosition: function(positionId, value) {
+
+        // Update
+        Positions.update(positionId, { $set: { value: value } });
+
+        console.log(Positions.findOne(positionId));
+
+    },
+    updateStockPosition: function(positionId, qty) {
+
+        // Update
+        Positions.update(positionId, { $set: { qty: qty } });
+
+        // Get data 
+        var position = Positions.findOne(positionId);
+        var answer = HTTP.get('https://dividendstocks.io/api/stocks/' + position.ticker);
+
+        // Update
+        var data = answer.data;
+        Positions.update(positionId, { $set: { positionYield: data.divYield } });
+        Positions.update(positionId, { $set: { value: data.value * qty } });
+        Positions.update(positionId, { $set: { name: data.name } });
+        Positions.update(positionId, { $set: { currency: data.currency } });
+
+        console.log(Positions.findOne(positionId));
 
     }
 
