@@ -96,7 +96,7 @@ Template.dashboard.helpers({
     },
     incomeGoal: function() {
 
-        return (Session.get('total').income / Goals.findOne({ type: 'global', feature: 'income' }).value * 100).toFixed(0);
+        return (Session.get('total').passiveIncome / Goals.findOne({ type: 'global', feature: 'income' }).value * 100).toFixed(0);
 
     },
     isIncomeGoal: function() {
@@ -134,10 +134,10 @@ Template.dashboard.helpers({
         return Session.get('total').value.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
     },
     income: function() {
-        return Session.get('total').income.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        return (Session.get('total').passiveIncome / 12).toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
     },
     yield: function() {
-        return Session.get('total').yield.toFixed(2);
+        return Session.get('total').passiveYield.toFixed(2);
     },
     types: function() {
         return Session.get('types');

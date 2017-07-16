@@ -1,0 +1,22 @@
+<template name="stats">
+    {{#if currentUser}}
+    <h3>Dividend Growth Investing</h3>
+    <div class='row'>
+        <div class='col-md-4'>
+            <canvas id='sector-allocation' height="200"></canvas>
+        </div>
+         <div class='col-md-4'>
+            <canvas id='currency-allocation' height="200"></canvas>
+        </div>
+    </div>
+    <h3>Peer-to-Peer Lending</h3>
+    <div class='row'>
+        <div class='col-md-4'>
+            <canvas id='p2p-platform' height="200"></canvas>
+        </div>
+        <div class='col-md-4'>
+            <canvas id='p2p-currency' height="200"></canvas>
+        </div>
+    </div>
+    {{/if}}
+</template>

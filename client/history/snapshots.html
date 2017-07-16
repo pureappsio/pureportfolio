@@ -1,0 +1,4 @@
+<template name="snapshots">
+    {{#if currentUser}}
+    <h3>Snapshots</h3> {{#each snapshots}} {{> snapshot}} {{/each}} {{/if}}
+</template>

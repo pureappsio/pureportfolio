@@ -1,0 +1,12 @@
+<template name='platforms'>
+    <h3>Platforms</h3>
+    {{#autoForm collection="Platforms" id="insertPlatformForm" type="insert"}}
+    <fieldset>
+        {{> afQuickField name='name'}} 
+        {{> afQuickField name='link'}}
+    </fieldset>
+    <button type="submit" class="btn btn-block btn-primary">Insert</button>
+    {{/autoForm}} 
+
+    {{#each platforms}}{{> platform}}{{/each}}
+</template>

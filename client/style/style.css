@@ -4,6 +4,14 @@
 	vertical-align: middle;
 }
 
+h3 {
+	margin-top: 15px !important;
+}
+
+.navbar {
+	margin-bottom: 15px;
+}
+
 .voffset30 {
 	margin-bottom: 30px;
 }

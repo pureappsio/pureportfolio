@@ -10,6 +10,10 @@ Meteor.publish("userSnapshots", function () {
 	return Snapshots.find({});
 });
 
+Meteor.publish("userPlatforms", function () {
+	return Platforms.find({});
+});
+
 Meteor.publish("userMetas", function () {
 	return Metas.find({});
 });

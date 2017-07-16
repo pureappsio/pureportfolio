@@ -3,17 +3,16 @@
         <td>{{type}}</td>
         <td>{{name}}</td>
         <td>
-            {{#if isStock}}
-            <input id='{{_id}}' type='text' class='form-control' value='{{qty}}'>{{/if}}
+            {{#if isStock}}{{qty}}{{/if}}
         </td>
         <td>
             {{#if isStock}} {{convertedValue}} {{else}}
-            <input id='{{_id}}' type='text' class='form-control' value='{{convertedValue}}'> {{/if}} {{currency}}
+            {{convertedValue}}{{/if}} {{currency}}
         </td>
         <td>{{positionYield}}</td>
         <td>{{income}}</td>
         <td>
-            <button class='btn btn-warning update'>Update</button>
+            <a href='/positions/{{_id}}/edit' class='btn btn-warning'>Update</a>
         </td>
         <td>
             <button class='btn btn-danger delete'>X</button>

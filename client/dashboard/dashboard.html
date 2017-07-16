@@ -87,7 +87,7 @@
     </div>
     <div class='row earnings'>
         <div class='col-md-4 col-centered'>
-            <div>Total</div>
+            <div>Net Worth</div>
             <div class='earnings-title'>{{total}}</div>
             <div class='earnings-goal'>{{valueGoal}}%</div>
         </div>
@@ -101,40 +101,27 @@
         </div>
     </div>
     <div class='row earnings'>
-        <div class='col-md-3 col-centered'>
+        <div class='col-md-4 col-centered'>
             <div>Dividend Paying Stocks</div>
             <div class='earnings-title'>{{positionTotal "stock"}}</div>
             <div class='earnings-goal'>{{positionGoal "stock"}}%</div>
         </div>
-        <div class='col-md-3 col-centered'>
+        <div class='col-md-4 col-centered'>
             <div>Real Estate</div>
             <div class='earnings-title'>{{positionTotal "realestate"}}</div>
             <div class='earnings-goal'>{{positionGoal "realestate"}}%</div>
         </div>
-        <div class='col-md-3 col-centered'>
+        <div class='col-md-4 col-centered'>
             <div>Peer-to-Peer Lending</div>
             <div class='earnings-title'>{{positionTotal "p2p"}}</div>
             <div class='earnings-goal'>{{positionGoal "p2p"}}%</div>
         </div>
-        <div class='col-md-3 col-centered'>
+       <!--  <div class='col-md-3 col-centered'>
             <div>Profitable Websites</div>
             <div class='earnings-title'>{{positionTotal "website"}}</div>
             <div class='earnings-goal'>{{positionGoal "website"}}%</div>
-        </div>
+        </div> -->
     </div>
-    <!-- <table class="table voffset30">
-        <thead>
-            <tr>
-                <th>Type</th>
-                <th>Value</th>
-                <th>Yield</th>
-                <th>Monthly Income</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each types}} {{> type}} {{/each}}
-        </tbody>
-    </table> -->
     
     {{/if}}
 </template>

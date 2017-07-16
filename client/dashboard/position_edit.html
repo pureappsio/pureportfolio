@@ -1,0 +1,19 @@
+<template name="positionEdit">
+    <h3>Edit Position {{name}}</h3> {{#autoForm collection="Positions" doc=this id="updatePositionForm" type="update" autosave=true}}
+    <fieldset>
+        {{> afQuickField name='name'}} 
+        {{> afQuickField name='platformId' type='select'}}
+        {{> afQuickField name='value'}}
+        {{> afQuickField name='positionYield'}}
+        {{> afQuickField name='country'}}
+
+        {{#if isRe}}
+
+	        {{> afQuickField name='city'}}
+	        {{> afQuickField name='size'}}
+
+        {{/if}}
+
+    </fieldset>
+    {{/autoForm}}
+</template>

@@ -10,6 +10,14 @@ Template.settings.events({
 
         Meteor.call('addGoal', goal);
 
+    },
+    'click #update': function() {
+        
+        Meteor.call('updatePortfolio');
+    },
+     'click #snap': function() {
+        
+        Meteor.call('takeSnapshot');
     }
 
 });

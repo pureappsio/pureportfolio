@@ -1,9 +1,11 @@
 <template name="snapshot">
-   
-    <tr>
-        <td>{{type}}</td>
-        <td>{{value}}</td>
-        <td>{{income}}</td>
-        <td>{{date}}</td>
-    </tr>
+    <div class="row">
+        <div class="col-md-2">{{type}}</div>
+        <div class="col-md-2">{{value}}</div>
+        <div class="col-md-2">{{income}}</div>
+        <div class="col-md-3">{{date}}</div>
+        <div class="col-md-1">
+            <button class="btn btn-danger delete">X</button>
+        </div>
+    </div>
 </template>
