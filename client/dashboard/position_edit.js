@@ -8,6 +8,13 @@ Template.positionEdit.helpers({
             return false;
         }
 
+    },
+    isStock: function() {
+        if (this.type == 'stock' || this.type == 'reit' || this.type == 'etf') {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 });

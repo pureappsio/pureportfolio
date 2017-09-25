@@ -1,11 +1,25 @@
 <template name="positionEdit">
     <h3>Edit Position {{name}}</h3> {{#autoForm collection="Positions" doc=this id="updatePositionForm" type="update" autosave=true}}
     <fieldset>
-        {{> afQuickField name='name'}} 
-        {{> afQuickField name='platformId' type='select'}}
-        {{> afQuickField name='value'}}
-        {{> afQuickField name='positionYield'}}
-        {{> afQuickField name='country'}}
+
+         {{#if isStock}}
+
+            {{> afQuickField name='qty'}}
+                <div class='row'>
+                    <div class='col-md-3'>Value: {{value}}</div>
+                    <div class='col-md-3'>Yield: {{positionYield}}</div>
+                </div>
+
+        {{else}}
+
+            {{> afQuickField name='name'}} 
+            {{> afQuickField name='platformId' type='select'}}
+
+            {{> afQuickField name='value'}}
+            {{> afQuickField name='positionYield'}}
+            {{> afQuickField name='country'}}
+
+        {{/if}}
 
         {{#if isRe}}
 
@@ -15,5 +29,11 @@
         {{/if}}
 
     </fieldset>
+    <button type="submit" class="btn btn-primary">Update</button>
     {{/autoForm}}
+
+    <div class='row'>
+        <div class='col-md-4'></div>
+        <div class='col-md-4'><a href='/portfolio' class='btn btn-block btn-primary'>Come Back</a></div>
+    </div>
 </template>

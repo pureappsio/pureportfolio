@@ -2,15 +2,18 @@ Meteor.methods({
 
     getReport: function(query) {
 
-        // Get snapshot
+        // Get date
         var date = new Date();
         var currentDate = new Date(date.setDate(0));
-        var snapshots = Snapshots.find({}).fetch();
         var pastDate = new Date(date.setDate(0));
 
-        console.log(currentDate);
+        // Types
+        var types = ['p2p', 'stock', 'realestate', 'global'];
 
-        // Query ?
+        // Get all snapshots
+        var snapshots = Snapshots.find({ type: { $in: types } }).fetch();
+
+        // Query
         if (query.year && query.month) {
 
             var currentDate = new Date();
@@ -28,71 +31,77 @@ Meteor.methods({
             var pastDate = new Date(date.setDate(0));
         }
 
-        var current = [];
-        var past = [];
+        var current = {};
+        var past = {};
+
+        // Fill
+        for (t in types) {
+
+            current[types[t]] = {
+                snapshot: {},
+                found: false
+            };
+
+            past[types[t]] = {
+                snapshot: {},
+                found: false
+            };
+        }
 
         for (i in snapshots) {
 
             var snapTime = new Date(snapshots[i].date);
 
-            if (snapTime.getDate() == currentDate.getDate() && snapTime.getMonth() == currentDate.getMonth()) {
-                current.push(snapshots[i]);
+            if ((snapTime.getDate() >= currentDate.getDate() || snapTime.getDate() <= currentDate.getDate()) && snapTime.getMonth() == currentDate.getMonth()) {
+
+                if (current[snapshots[i].type].found == false) {
+                    current[snapshots[i].type].snapshot = snapshots[i];
+                    current[snapshots[i].type].found = true;
+                }
+
             }
 
-            if (snapTime.getDate() == pastDate.getDate() && snapTime.getMonth() == pastDate.getMonth()) {
-                past.push(snapshots[i]);
+            if ((snapTime.getDate() >= pastDate.getDate() || snapTime.getDate() <= pastDate.getDate()) && snapTime.getMonth() == pastDate.getMonth()) {
+
+                if (past[snapshots[i].type].found == false) {
+                    past[snapshots[i].type].snapshot = snapshots[i];
+                    past[snapshots[i].type].found = true;
+                }
+
             }
         }
 
         console.log(current);
+        console.log(past);
 
         var report = {};
-        var types = ['p2p', 'stock', 'realestate', 'global'];
 
-        for (i in current) {
+        for (t in types) {
 
-            for (t in types) {
-
-                if (types[t] == current[i].type) {
-
-                    if (types[t] == 'global') {
-                        report[types[t]] = { current: (current[i].passiveIncome / 12).toFixed(2) }
-                    } else {
-                        report[types[t]] = { current: (current[i].income / 12).toFixed(2) }
-                    }
-
-
-                }
-
+            if (types[t] == 'global') {
+                report[types[t]] = { current: (current[types[t]].snapshot.passiveIncome / 12).toFixed(2) }
+            } else {
+                report[types[t]] = { current: (current[types[t]].snapshot.income / 12).toFixed(2) }
             }
 
         }
 
-        console.log(past);
-
-        for (i in past) {
-
-            for (t in types) {
-
-                if (types[t] == past[i].type) {
-
-                    if (types[t] == 'global') {
-                        report[types[t]].variation = report[types[t]].current - past[i].passiveIncome / 12;
-                        report[types[t]].variation_percent = report[types[t]].variation / (past[i].passiveIncome / 12) * 100;
-
-                    } else {
-                        console.log(types[t]);
-                        report[types[t]].variation = report[types[t]].current - past[i].income / 12;
-                        report[types[t]].variation_percent = report[types[t]].variation / (past[i].income / 12) * 100;
-                    }
-
-                    report[types[t]].variation = (report[types[t]].variation).toFixed(2);
-                    report[types[t]].variation_percent = (report[types[t]].variation_percent).toFixed(2);
+        console.log(report);
 
 
-                }
+        for (t in types) {
 
+            if (types[t] == 'global') {
+                report[types[t]].variation = report[types[t]].current - past[types[t]].snapshot.passiveIncome / 12;
+                report[types[t]].variation_percent = report[types[t]].variation / (past[types[t]].snapshot.passiveIncome / 12) * 100;
+
+            } else {
+                report[types[t]].variation = report[types[t]].current - past[types[t]].snapshot.income / 12;
+                report[types[t]].variation_percent = report[types[t]].variation / (past[types[t]].snapshot.income / 12) * 100;
             }
+
+            report[types[t]].variation = (report[types[t]].variation).toFixed(2);
+            report[types[t]].variation_percent = (report[types[t]].variation_percent).toFixed(2);
 
         }
 
@@ -266,6 +275,7 @@ Meteor.methods({
             console.log('Upating stock ' + stocks[i].ticker);
 
             // Get data 
+            console.log('https://dividendstocks.io/api/stocks/' + stocks[i].ticker);
             var answer = HTTP.get('https://dividendstocks.io/api/stocks/' + stocks[i].ticker);
 
             // Update
@@ -275,14 +285,14 @@ Meteor.methods({
             Positions.update(stocks[i]._id, { $set: { name: data.name } });
             Positions.update(stocks[i]._id, { $set: { currency: data.currency } });
 
-            Positions.update(stocks[i]._id, { $set: { sector: data.sector } });
-            Positions.update(stocks[i]._id, { $set: { industry: data.industry } });
-            Positions.update(stocks[i]._id, { $set: { country: data.country } });
+            // Positions.update(stocks[i]._id, { $set: { sector: data.sector } });
+            // Positions.update(stocks[i]._id, { $set: { industry: data.industry } });
+            // Positions.update(stocks[i]._id, { $set: { country: data.country } });
 
         }
 
         // Update all websites
-        Meteor.call('updateWebsites');
+        // Meteor.call('updateWebsites');
 
     },
     updateWebsites: function() {
@@ -471,6 +481,32 @@ Meteor.methods({
 
 
     },
+    editPosition: function(positionId) {
+
+        // Get position
+        var position = Positions.findOne(positionId);
+        
+        // Get info
+        if (position.type == 'stock' || position.type == 'reit' || position.type == 'etf') {
+
+            // Get data 
+            var answer = HTTP.get('https://dividendstocks.io/api/stocks/' + position.ticker);
+
+            // Update
+            var data = answer.data;
+            // console.log(data);
+
+            Positions.update(positionId, { $set: { positionYield: data.divYield } });
+            Positions.update(positionId, { $set: { value: data.value * position.qty } });
+            Positions.update(positionId, { $set: { name: data.name } });
+            Positions.update(positionId, { $set: { currency: data.currency } });
+
+        }
+
+        var position = Positions.findOne(positionId);
+        console.log(position);
+
+    },
     addPosition: function(position) {
 
         // Insert
@@ -485,14 +521,15 @@ Meteor.methods({
 
             // Update
             var data = answer.data;
+            console.log(data);
             Positions.update(positionId, { $set: { positionYield: data.divYield } });
             Positions.update(positionId, { $set: { value: data.value * position.qty } });
             Positions.update(positionId, { $set: { name: data.name } });
             Positions.update(positionId, { $set: { currency: data.currency } });
 
-            Positions.update(positionId, { $set: { sector: data.sector } });
-            Positions.update(positionId, { $set: { industry: data.industry } });
-            Positions.update(positionId, { $set: { country: data.country } });
+            // Positions.update(positionId, { $set: { sector: data.sector } });
+            // Positions.update(positionId, { $set: { industry: data.industry } });
+            // Positions.update(positionId, { $set: { country: data.country } });
 
         }
         if (position.type == 'website') {
